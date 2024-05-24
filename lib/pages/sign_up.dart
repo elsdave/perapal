@@ -16,8 +16,6 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPage extends State<SignUpPage> {
 
-final TextEditingController nameController = TextEditingController();
-final TextEditingController usernameController = TextEditingController();
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 final TextEditingController rptpasswordController = TextEditingController();
@@ -85,14 +83,10 @@ final TextEditingController rptpasswordController = TextEditingController();
                     onPressed: () async {
                       signUpUser(
                       context,
-                      usernameController,
                       emailController,
                       passwordController,
                       rptpasswordController);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>  const LoginPage())
-                          );
+
                     } 
                 ),
                     SizedBox(

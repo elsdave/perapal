@@ -20,15 +20,15 @@ Future<void> addDefaultData() async {
     await users.doc(uid).set({
       'budgets': [
         {
-          'name': 'Sample Budget',
+          'name': 'Sample',
           'limit': 500,
           'spent': 0,
         }
       ],
       'savings': [
         {
-          'name': 'Savings',
-          'goal': 2500,
+          'name': 'Sample',
+          'goal': 500,
           'saved': 0,
         }
       ]

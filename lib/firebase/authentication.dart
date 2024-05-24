@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:perapal/helper/helper_function.dart';
+import 'package:perapal/pages/login.dart';
 import 'package:perapal/pages/onboarding.dart';
 import 'package:perapal/firebase/interactions.dart'; // Import the interactions.dart file
 import 'package:perapal/pages/home_page.dart';
 
 Future<void> signUpUser(BuildContext context, 
-    TextEditingController usernameController,
     TextEditingController emailController, 
     TextEditingController passwordController,
     TextEditingController rptpasswordController) async {
@@ -19,8 +19,7 @@ Future<void> signUpUser(BuildContext context,
   );
 
   // Validate that none of the fields are empty
-  if (usernameController.text.isEmpty || 
-      emailController.text.isEmpty || 
+  if (emailController.text.isEmpty || 
       passwordController.text.isEmpty || 
       rptpasswordController.text.isEmpty) {
     Navigator.pop(context);
@@ -53,7 +52,7 @@ Future<void> signUpUser(BuildContext context,
     if (context.mounted) Navigator.pop(context);
     Navigator.push(context, 
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const Onboarding())
+        builder: (BuildContext context) => const LoginPage())
     );
   } on FirebaseAuthException catch (e) {
     Navigator.pop(context);
