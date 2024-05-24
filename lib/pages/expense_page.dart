@@ -148,7 +148,7 @@ class _ExpensePageState extends State<Expense> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Amount: \$${expenses[i]['amount']}'),
+                            Text('Amount: \₱ ${expenses[i]['amount']}'),
                             Text('Notes: ${expenses[i]['notes']}'),
                             Text('Date: ${expenses[i]['date']}'),
                           ],

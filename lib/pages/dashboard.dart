@@ -123,7 +123,7 @@ class _DashboardState extends State<Dashboard> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Amount: \$${expenses[i]['amount']}'),
+                                Text('Amount: \₱ ${expenses[i]['amount']}'),
                                 Text('Date: ${expenses[i]['date']}'),
                               ],
                             ),
