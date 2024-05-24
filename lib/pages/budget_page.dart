@@ -84,6 +84,7 @@ class _BudgetState extends State<Budget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -186,11 +187,15 @@ class _BudgetState extends State<Budget> {
               ),
 
               const SizedBox(height: 20.0),
-
+              
+/* 
               Button(
                 onPressed: () => showAddBudgetDialog(context, _addBudget),
                 buttonText: 'Add New Budget',
               ),
+
+ */
+
           ],
         ),
       ),

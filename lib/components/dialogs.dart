@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:perapal/firebase/interactions.dart';
-
 Future<void> showAddBudgetDialog(
   BuildContext context,
   Function(String, double, double) onAdd,
@@ -26,11 +25,6 @@ Future<void> showAddBudgetDialog(
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(hintText: 'Budget Limit'),
               ),
-              TextField(
-                controller: spentController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(hintText: 'Amount Spent'),
-              ),
             ],
           ),
         ),
@@ -47,9 +41,48 @@ Future<void> showAddBudgetDialog(
               final String name = nameController.text;
               final double limit = double.tryParse(limitController.text) ?? 0;
               final double spent = double.tryParse(spentController.text) ?? 0;
-              onAdd(name, limit, spent);
-              await addBudget(name, limit, spent); // Add the budget to Firestore
-              Navigator.of(context).pop();
+
+              if (name.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Invalid Budget Name'),
+                      content: const Text('Please enter a valid budget name.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else if (limit < 1) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Invalid Amount'),
+                      content: const Text('Please enter a valid amount (at least P1).'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                onAdd(name, limit, spent);
+                await addBudget(name, limit, spent); // Add the budget to Firestore
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],
@@ -57,7 +90,6 @@ Future<void> showAddBudgetDialog(
     },
   );
 }
-
 
 Future<void> showAddSavingsDialog(
   BuildContext context,
@@ -105,9 +137,48 @@ Future<void> showAddSavingsDialog(
               final String name = nameController.text;
               final double goal = double.tryParse(goalController.text) ?? 0;
               final double saved = double.tryParse(savedController.text) ?? 0;
-              onAdd(name, goal, saved);
-              await addSavingsGoal(name, goal, saved);  // Add the savings goal to Firestore
-              Navigator.of(context).pop();
+
+              if (name.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Invalid Savings Name'),
+                      content: const Text('Please enter a valid savings name.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else if (goal < 1) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Invalid Amount'),
+                      content: const Text('Please enter a valid amount (at least P1) for the goal.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                onAdd(name, goal, saved);
+                await addSavingsGoal(name, goal, saved);  // Add the savings goal to Firestore
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],
@@ -116,9 +187,10 @@ Future<void> showAddSavingsDialog(
   );
 }
 
-Future<void> showAddExpenseDialog(BuildContext context, Function(String, double, String) addExpenseCallback) async {
+Future<void> showAddExpenseDialog(BuildContext context, Function(String, double, String, DateTime) addExpenseCallback) async {
   final TextEditingController amountController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   List<Map<String, dynamic>> budgets = []; // Variable to store fetched budgets
 
   // Fetch the budget names from Firestore
@@ -151,6 +223,9 @@ Future<void> showAddExpenseDialog(BuildContext context, Function(String, double,
   // Variable to store the selected budget name
   String selectedBudgetName = budgets[0]['name'];
 
+  // Variable to store the selected date
+  DateTime selectedDate = DateTime.now();
+
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -181,6 +256,24 @@ Future<void> showAddExpenseDialog(BuildContext context, Function(String, double,
                 controller: notesController,
                 decoration: const InputDecoration(hintText: 'Notes'),
               ),
+              TextField(
+                controller: dateController,
+                decoration: const InputDecoration(hintText: 'Date (optional, default is today)'),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101),
+                  );
+
+                  if (pickedDate != null) {
+                    selectedDate = pickedDate;
+                    dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -194,10 +287,31 @@ Future<void> showAddExpenseDialog(BuildContext context, Function(String, double,
           TextButton(
             child: const Text('Add'),
             onPressed: () {
-              final double amount = double.parse(amountController.text);
+              final double amount = double.tryParse(amountController.text) ?? 0;
               final String notes = notesController.text;
-              addExpenseCallback(selectedBudgetName, amount, notes);
-              Navigator.of(context).pop();
+
+              if (amount < 1) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Invalid amount'),
+                      content: const Text('Please enter an amount of at least \$1.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                addExpenseCallback(selectedBudgetName, amount, notes, selectedDate);
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],

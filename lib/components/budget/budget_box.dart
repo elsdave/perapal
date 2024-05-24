@@ -42,7 +42,7 @@ class BudgetBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Limit: \$ ${budgetLimit.toStringAsFixed(2)}',
+                'Limit: \₱ ${budgetLimit.toStringAsFixed(2)}',
                 style: heading3L,
               ),
             ],
@@ -52,7 +52,7 @@ class BudgetBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Spent: \$ ${amountSpent.toStringAsFixed(2)}',
+                'Spent: \₱ ${amountSpent.toStringAsFixed(2)}',
                 style: heading3L,
               ),
             ],
@@ -62,7 +62,7 @@ class BudgetBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Remaining: \$ ${amountRemaining.toStringAsFixed(2)}',
+                'Remaining: \₱ ${amountRemaining.toStringAsFixed(2)}',
                 style: heading3L,
               ),
             ],

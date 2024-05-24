@@ -9,16 +9,9 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
           centerTitle: true,
-          title: Text("PeraPal", 
-          style: heading1D, 
-          selectionColor: textDark,
-          ),
-          backgroundColor: white,
+          title: Image.asset('assets/logo1.png', height: 80,),
+          backgroundColor: textLight,
           elevation: 200,
-          actions: [IconButton(onPressed: () {},
-          icon: const Icon(Icons.help)
-          )
-          ],
     );
   }
 }

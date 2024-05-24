@@ -32,15 +32,16 @@ class SavingsBox extends StatelessWidget {
         children: [
           Text(
             goalName,
-            style: heading1L.copyWith(fontSize: 25, color: textDark),
+            style: heading1D.copyWith(
+              fontSize: 25,),
           ),
           const SizedBox(height: 5.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Goal: \$${goalAmount.toStringAsFixed(2)}',
-                style: heading3L.copyWith(color: textDark),
+                'Goal: \₱ ${goalAmount.toStringAsFixed(2)}',
+                style: heading3,
               ),
             ],
           ),
@@ -48,8 +49,8 @@ class SavingsBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Saved: \$${savedAmount.toStringAsFixed(2)}',
-                style: heading3L.copyWith(color: textDark),
+                'Saved: \₱ ${savedAmount.toStringAsFixed(2)}',
+                style: heading3,
               ),
             ],
           ),
@@ -57,8 +58,8 @@ class SavingsBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Remaining: \$${remainingAmount.toStringAsFixed(2)}',
-                style: heading3L.copyWith(color: textDark),
+                'Remaining: \₱ ${remainingAmount.toStringAsFixed(2)}',
+                style: heading3,
               ),
             ],
           ),

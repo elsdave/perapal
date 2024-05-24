@@ -20,15 +20,15 @@ Future<void> addDefaultData() async {
     await users.doc(uid).set({
       'budgets': [
         {
-          'name': 'Sample Budget',
+          'name': 'Sample',
           'limit': 500,
           'spent': 0,
         }
       ],
       'savings': [
         {
-          'name': 'Savings',
-          'goal': 2500,
+          'name': 'Sample',
+          'goal': 500,
           'saved': 0,
         }
       ]
@@ -326,9 +326,7 @@ Future<void> modifySavings(String savingName, double newGoal, double newSaved) a
   }
 }
 
-// interactions.dart
-
-Future<void> addExpense(String budgetName, double amount, String notes) async {
+Future<void> addExpense(String budgetName, double amount, String notes, DateTime date) async {
   User? currentUser = FirebaseAuth.instance.currentUser;
   String? uid = currentUser?.uid;
 
@@ -361,7 +359,7 @@ Future<void> addExpense(String budgetName, double amount, String notes) async {
         'id': DateTime.now().millisecondsSinceEpoch.toString(),
         'amount': amount,
         'notes': notes,
-        'date': DateTime.now(),
+        'date': date,
       });
 
       // Update the document with the modified budgets list
@@ -381,6 +379,7 @@ Future<void> addExpense(String budgetName, double amount, String notes) async {
     }
   }
 }
+
 
 Future<List<Map<String, dynamic>>> fetchExpenses() async {
   User? currentUser = FirebaseAuth.instance.currentUser;

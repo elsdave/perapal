@@ -55,8 +55,8 @@ class AddButton extends StatelessWidget {
               children: [
                 FloatingActionButton(
                   onPressed: () async {
-                    await showAddExpenseDialog(context, (String budgetName, double amount, String notes) async {
-                      await addExpense(budgetName, amount, notes);
+                    await showAddExpenseDialog(context, (String budgetName, double amount, String notes, DateTime date) async {
+                      await addExpense(budgetName, amount, notes, date);
                     });
                   },
                   child: const Icon(Icons.money),
